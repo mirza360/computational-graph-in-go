@@ -1,83 +1,101 @@
 package main
 
+import "math"
+
 /*
 type node struct {
-	variable float32
-	weight   float32
-	bias     float32
+	variable float64
+	weight   float64
+	bias     float64
 	next     *node
 }
 */
 func main() {
 
-	var a float32 = 1.5
-	var b float32 = 1.7
-	var learnigRate float32 = 0.5
+	var a float64 = 1.5
+	var b float64 = 1.7
+	var learnigRate float64 = 0.5
 
-	var data [3][2]float32
-	data[0][0] = float32(2)
-	data[0][1] = float32(3)
-	data[1][0] = float32(3)
-	data[1][1] = float32(5)
-	data[2][0] = float32(4)
-	data[2][1] = float32(10)
+	var data [3][2]float64
+	data[0][0] = float64(2)
+	data[0][1] = float64(17)
+	data[1][0] = float64(3)
+	data[1][1] = float64(37)
+	data[2][0] = float64(4)
+	data[2][1] = float64(65)
 	var row int = 3
-
-	var gradescA float32 = 50000000000
-	//var gradescB float32
+	var gradescAData [3]float64
+	gradescAData[1] = 999999999999
+	var gradescA float64 //= 50000000000
+	//var gradescB float64
 
 	//check = 1 for down Check = 2 for up
 	var check int = 2
+	var run int = 1
 	for check != 0 {
-		var x float32
-		var y float32
+		var x float64
+		var y float64
 
-		var gradA float32 = 0
-		var gradB float32 = 0
+		var gradA float64 = 0
+		var gradB float64 = 0
 		var i int
 		for i = 0; i < row; i++ {
 			x = data[i][0]
 			y = data[i][1]
-			var lossA, lossB float32 = train(a, b, x, y)
+			var lossA, lossB float64 = train(a, b, x, y)
 			gradA = gradA + lossA
 			gradB = gradB + lossB
 
 		}
-		if gradescA > gradA {
-			gradescA = gradA
-			if check == 1 {
+		gradA = math.Round(gradA*100) / 100
+		//println(gradA)
+		if check == 2 {
+			gradescAData[2] = gradA
+			if gradescAData[1] >= gradescAData[2] {
 				a = a + learnigRate
-			} else {
-				a = a - learnigRate
-			}
-		} else if gradescA < gradA {
-			if check == 1 {
-				check = 2
+				gradescAData[1] = gradescAData[2]
+			} else if gradescAData[1] <= gradescAData[2] {
 				a = a - (2 * learnigRate)
-			} else {
 				check = 1
-				a = a + (2 * learnigRate)
 			}
-
-		} else if int(gradescA) == int(gradA) {
-			check = 0
-
+		} else if check == 1 {
+			gradescAData[0] = gradA
+			if gradescAData[1] >= gradescAData[0] {
+				a = a - learnigRate
+				gradescAData[1] = gradescAData[0]
+				gradescAData[1] = gradescAData[0]
+			} else if gradescAData[1] <= gradescAData[0] {
+				a = a + (2 * learnigRate)
+				check = 2
+			}
 		}
-		println("Here is the loss")
-		println(gradescA)
+		if gradescAData[0] > gradescAData[1] && gradescAData[2] > gradescAData[1] {
+			check = 0
+			gradescA = gradescAData[1]
+		}
+
+		print("loss ")
+		print(gradescAData[1])
+		print("\nWeight ")
+		print(a)
+
+		run++
 
 	}
-	println("Here is the final thing")
+	println("\n")
+	print("Final Loss")
 	println(gradescA)
+	print("\nFinal Weight")
+	print(a)
 	//println(gradB)
 
-	//var MSE float32
+	//var MSE float64
 
 }
 
-func train(a, b, x, y float32) (float32, float32) {
+func train(a, b, x, y float64) (float64, float64) {
 	//forward pass initiation
-	var i [6]float32
+	var i [6]float64
 	i[1] = a * x
 	i[2] = i[1] + b
 	i[3] = i[2]
@@ -86,7 +104,7 @@ func train(a, b, x, y float32) (float32, float32) {
 
 	//backpropagation
 	//differential stuff
-	var diff [5]float32
+	var diff [5]float64
 	//di5/di4
 	diff[4] = 2 * i[4]
 	//di4/di3
@@ -97,20 +115,22 @@ func train(a, b, x, y float32) (float32, float32) {
 	diff[1] = b
 	//overlap cost
 	var c int
-	var overlapCost float32 = 1
+	var overlapCost float64 = 1
 	for c = 2; c < 5; c++ {
 		overlapCost = overlapCost * diff[c]
 	}
 	//di1/db=x diff[1] has di2/di1
-	var costA float32 = overlapCost * diff[1] * x
+	var costA float64 = overlapCost * diff[1] * x
 
 	//di1/db=i1
-	var costB float32 = overlapCost * i[1]
+	var costB float64 = overlapCost * i[1]
 
 	//end of differentiation stuff
 
 	//loss function
-	//var loss float32 = i[5] + math.Abs(a) + math.Abs(b)
+	//var loss float64 = i[5] + math.Abs(a) + math.Abs(b)
+	costA = math.Abs(costA) + math.Abs(a) + math.Abs(b)
+	costB = math.Abs(costB) + math.Abs(a) + math.Abs(b)
 	return costA, costB
 
 }
