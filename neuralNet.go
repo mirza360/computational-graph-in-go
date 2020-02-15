@@ -1,6 +1,13 @@
 package main
 
-import "math"
+import (
+	"encoding/csv"
+	"fmt"
+	"log"
+	"math"
+	"os"
+	"strconv"
+)
 
 /*
 type node struct {
@@ -16,13 +23,45 @@ func main() {
 	var b float64 = 1.7
 	var learnigRate float64 = 0.5
 
-	var data [3][2]float64
-	data[0][0] = float64(2)
-	data[0][1] = float64(17)
-	data[1][0] = float64(3)
-	data[1][1] = float64(37)
-	data[2][0] = float64(4)
-	data[2][1] = float64(65)
+	// Open csv file using Open function importing os module
+	csvFile, err := os.Open("data.csv")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer csvFile.Close()
+
+	// Create CSV reader
+	csvReader := csv.NewReader(csvFile)
+	// Specify number of columns per row
+	csvReader.FieldsPerRecord = 2
+	// Specify delimiter
+	csvReader.Comma = ','
+
+	inputs, err := csvReader.ReadAll()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var arrSize int
+	arrSize = len(inputs) - 1
+
+	data := make([][2]float64, arrSize)
+	//fmt.Println(data)
+
+	var i, j int
+	var f string
+
+	for i = 1; i < 4; i++ {
+		for j = 0; j < 2; j++ {
+			f = inputs[i][j]
+			s, err := strconv.ParseFloat(f, 64)
+			if err != nil {
+				log.Fatal(err)
+			}
+			//fmt.Print(s, ", ")
+			data[i-1][j] = s
+		}
+	}
 	var row int = 3
 	var gradescAData [3]float64
 	gradescAData[1] = 999999999999
