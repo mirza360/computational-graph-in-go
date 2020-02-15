@@ -19,9 +19,17 @@ type node struct {
 */
 func main() {
 
-	var a float64 = 1.5
-	var b float64 = 1.7
-	var learnigRate float64 = 0.5
+	var a float64
+	fmt.Print("Enter your hyper parameter a: ")
+	fmt.Scan(&a)
+
+	var b float64
+	fmt.Print("Enter your hyper parameter b: ")
+	fmt.Scan(&b)
+
+	var learnigRate float64
+	fmt.Print("Enter your learning Rate: ")
+	fmt.Scan(&learnigRate)
 
 	// Open csv file using Open function importing os module
 	csvFile, err := os.Open("data.csv")
