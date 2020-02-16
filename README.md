@@ -1,4 +1,4 @@
-# Neural Net Using Go
+# Computational Graph Using Go
 
 ## Instruction to run this code
 1. Install Go Compiler
