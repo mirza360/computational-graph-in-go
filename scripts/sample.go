@@ -18,14 +18,15 @@ type root struct {
 func main() {
 
 	//solving for y=(c(ax+b)^2+d)
-
-	var a float64 = 1.5
-	var b float64 = 1.7
-	var c float64 = 1
-	var d float64 = 1
-	var learnigRate float64 = 0.5
-	link := node{}
-	head := root{}
+	/*
+		var a float64 = 1.5
+		var b float64 = 1.7
+		var c float64 = 1
+		var d float64 = 1
+		var learnigRate float64 = 0.5
+		link := node{}
+		head := root{}
+	*/
 	//head.head:=link
 	//head.tail:=link
 
@@ -39,6 +40,16 @@ func main() {
 	//println(gradB)
 
 	//var MSE float64
+
+	var a float64
+	var x float64
+	a = 2
+	x = 3
+	//var m float64 = 0
+	//var di float64 = 0
+	m, di := sqr(x, a, x)
+	println(m)
+	println(di)
 
 }
 
@@ -84,9 +95,12 @@ func add(a, b, d float64) (float64, float64) {
 func sqr(a, b, d float64) (float64, float64) {
 	var sqrAB float64 = a
 	var c int
-	for c = 0; c < int(b); c++ {
+	for c = 1; c < int(b); c++ {
 		sqrAB = sqrAB * sqrAB
+		//println(sqrAB)
 	}
+	//println("---")
+	//println(sqrAB)
 	//diff
 	var diffAB float64 = b * (sqrAB / a)
 
