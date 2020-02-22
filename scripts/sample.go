@@ -8,6 +8,8 @@ type node struct {
 	varB float64
 	next *node
 	prev *node
+}
+
 type root struct {
 	head *node
 	tail *node
@@ -22,13 +24,10 @@ func main() {
 	var c float64 = 1
 	var d float64 = 1
 	var learnigRate float64 = 0.5
-	link :=node{}
-	head:=root{}
-	head.head:=link
-	head.tail:=link
-	
-
-
+	link := node{}
+	head := root{}
+	//head.head:=link
+	//head.tail:=link
 
 	var data [3][2]float64
 	data[0][0] = float64(2)
@@ -41,6 +40,21 @@ func main() {
 
 	//var MSE float64
 
+}
+
+func (r *root) addNode(newNode *node) {
+	if r.head == nil {
+		r.head = newNode
+		r.tail = newNode
+	} else {
+		currentNode := r.head
+		for currentNode.next != nil {
+			currentNode = currentNode.next
+		}
+		newNode.prev = currentNode
+		currentNode.next = newNode
+		r.tail = newNode
+	}
 }
 
 func mult(a, b, d float64) (float64, float64) {
