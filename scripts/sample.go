@@ -134,3 +134,39 @@ func train(a, b, x, y float64) (float64, float64) {
 	return costA, costB
 
 }
+func mult(a, b, d float64) (float64, float64) {
+	var multAB float64 = a * b
+	//diff
+	var diffAB float64
+	if a == b {
+		diffAB = b
+	} else if b == d {
+		diffAB = a
+	}
+	return multAB, diffAB
+
+}
+func add(a, b, d float64) (float64, float64) {
+	var addAB float64 = a + b
+	//diff
+	var diffAB float64
+	if a == b {
+		diffAB = a / math.Abs(a)
+	} else if b == d {
+		diffAB = b / math.Abs(b)
+	}
+	return addAB, diffAB
+
+}
+func sqr(a, b, d float64) (float64, float64) {
+	var sqrAB float64 = a
+	var c int
+	for c = 0; c < int(b); c++ {
+		sqrAB = sqrAB * sqrAB
+	}
+	//diff
+	var diffAB float64 = b * (sqrAB / a)
+
+	return sqrAB, diffAB
+
+}
