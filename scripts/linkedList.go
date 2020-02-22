@@ -25,7 +25,7 @@ func (l *list) Display() {
 	fmt.Println()
 }
 
-func (l *List) DisplayReverse() {
+func (l *list) DisplayReverse() {
 	list := l.tail
 	for list != nil {
 		fmt.Printf("value = %v\n", list.num)
