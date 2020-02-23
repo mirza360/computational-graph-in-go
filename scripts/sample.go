@@ -2,21 +2,32 @@ package main
 
 import "math"
 
+var a float64 = 0.0
+var b float64 = 0.0
+var c float64 = 0.0
+var d float64 = 0.0
+var x float64 = 0.0
+var learnigRate float64 = 0.0
+
 type node struct {
-	i    int
-	varA float64
-	varB float64
-	next *node
-	prev *node
+	idx       int
+	varA      float64
+	varB      float64
+	resVal    float64
+	diffVal   float64
+	str       string
+	prev      *node
+	next      *node
+	childDown *node
+	childUp   *node
 }
 
-type root struct {
-	head *node
+type list struct {
 	tail *node
+	head *node
 }
 
 func main() {
-
 	//solving for y=(c(ax+b)^2+d)
 	/*
 		var a float64 = 1.5
@@ -47,28 +58,56 @@ func main() {
 	x = 3
 	//var m float64 = 0
 	//var di float64 = 0
-	m, di := sqr(x, a, x)
+	m, di, st := sqr(x, a, x, "x")
 	println(m)
 	println(di)
+	println(st)
 
 }
 
-func (r *root) addNode(newNode *node) {
-	if r.head == nil {
-		r.head = newNode
-		r.tail = newNode
+func (l *list) addNode(newNode *node) {
+	if l.head == nil {
+		l.head = newNode
+		l.tail = newNode
 	} else {
-		currentNode := r.head
+		currentNode := l.head
 		for currentNode.next != nil {
 			currentNode = currentNode.next
 		}
 		newNode.prev = currentNode
 		currentNode.next = newNode
-		r.tail = newNode
+		l.tail = newNode
 	}
 }
 
-func mult(a, b, d float64) (float64, float64) {
+func (l *list) addBottomNode(newNode *node) {
+	if l.head == nil {
+		l.head = newNode
+		l.tail = newNode
+	} else {
+		currentNode := l.head
+		for currentNode.childDown != nil {
+			currentNode = currentNode.childDown
+		}
+		newNode.childUp = currentNode
+		currentNode.childDown = newNode
+		l.tail = newNode
+	}
+}
+
+func calculate() *node {
+	//solving for y=(c(ax+b)^2+d)
+	items := &list{}
+	p, q, s := mult(a, x, x, "x")
+	node1 := node{idx: 1, resVal: p, str: s}
+	bottomNode1 := node{diffVal: q}
+	items.addNode(&node1)
+	items.addBottomNode(&bottomNode1)
+
+	return items.head
+}
+
+func mult(a, b, d float64, str string) (float64, float64, string) {
 	var multAB float64 = a * b
 	//diff
 	var diffAB float64
@@ -77,10 +116,11 @@ func mult(a, b, d float64) (float64, float64) {
 	} else if b == d {
 		diffAB = a
 	}
-	return multAB, diffAB
+	str1 := str
+	return multAB, diffAB, str1
 
 }
-func add(a, b, d float64) (float64, float64) {
+func add(a, b, d float64, str string) (float64, float64, string) {
 	var addAB float64 = a + b
 	//diff
 	var diffAB float64
@@ -89,10 +129,11 @@ func add(a, b, d float64) (float64, float64) {
 	} else if b == d {
 		diffAB = b / math.Abs(b)
 	}
-	return addAB, diffAB
+	str1 := str
+	return addAB, diffAB, str1
 
 }
-func sqr(a, b, d float64) (float64, float64) {
+func sqr(a, b, d float64, str string) (float64, float64, string) {
 	var sqrAB float64 = a
 	var c int
 	for c = 1; c < int(b); c++ {
@@ -104,6 +145,7 @@ func sqr(a, b, d float64) (float64, float64) {
 	//diff
 	var diffAB float64 = b * (sqrAB / a)
 
-	return sqrAB, diffAB
+	str1 := str
 
+	return sqrAB, diffAB, str1
 }
