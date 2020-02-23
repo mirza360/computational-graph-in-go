@@ -1,6 +1,9 @@
 package main
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 var a float64 = 0.0
 var b float64 = 0.0
@@ -13,6 +16,7 @@ type node struct {
 	idx       int
 	varA      float64
 	varB      float64
+	varTemp   float64
 	resVal    float64
 	diffVal   float64
 	str       string
@@ -63,6 +67,10 @@ func main() {
 	println(di)
 	println(st)
 
+	item := calculate()
+
+	item.Display()
+
 }
 
 func (l *list) addNode(newNode *node) {
@@ -95,16 +103,51 @@ func (l *list) addBottomNode(newNode *node) {
 	}
 }
 
-func calculate() *node {
+func (l *list) Display() {
+	list := l.head
+	for list != nil {
+		fmt.Printf("idx = %v and resVal = %v and str = %#v and prev = %v and next= %v\n", list.idx, list.resVal, list.str, list.prev, list.next)
+		list = list.next
+	}
+	fmt.Println()
+}
+
+func calculate() *list {
 	//solving for y=(c(ax+b)^2+d)
 	items := &list{}
-	p, q, s := mult(a, x, x, "x")
-	node1 := node{idx: 1, resVal: p, str: s}
-	bottomNode1 := node{diffVal: q}
-	items.addNode(&node1)
-	items.addBottomNode(&bottomNode1)
 
-	return items.head
+	i1, df, s := mult(a, x, x, "x")
+	r1, df1, s1 := mult(a, x, a, "a")
+	node1 := node{idx: 1, resVal: i1, varTemp: r1}
+	node1bottomNode1 := node{diffVal: df, str: s}
+	node1bottomNode2 := node{diffVal: df1, str: s1}
+	items.addNode(&node1)
+	items.addBottomNode(&node1bottomNode1)
+	items.addBottomNode(&node1bottomNode2)
+
+	i2, df2, s2 := add(i1, b, b, "b")
+	r2, df3, s3 := add(i1, b, i1, "i1")
+	node2 := node{idx: 2, resVal: i2, varTemp: r2}
+	node2bottomNode1 := node{diffVal: df2, str: s2}
+	node2bottomNode2 := node{diffVal: df3, str: s3}
+	items.addNode(&node2)
+	items.addBottomNode(&node2bottomNode1)
+	items.addBottomNode(&node2bottomNode2)
+
+	i3, df4, s4 := sqr(i2, 2, i2, "i2")
+	node3 := node{idx: 3, resVal: i3, diffVal: df4, str: s4}
+	items.addNode(&node3)
+
+	i4, df5, s5 := mult(c, i3, i3, "i3")
+	r3, df6, s6 := mult(c, i3, c, "c")
+	node4 := node{idx: 4, resVal: i4, varTemp: r3}
+	node4bottomNode1 := node{diffVal: df5, str: s5}
+	node4bottomNode2 := node{diffVal: df6, str: s6}
+	items.addNode(&node4)
+	items.addBottomNode(&node4bottomNode1)
+	items.addBottomNode(&node4bottomNode2)
+
+	return items
 }
 
 func mult(a, b, d float64, str string) (float64, float64, string) {
