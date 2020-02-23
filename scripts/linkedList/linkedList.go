@@ -29,8 +29,17 @@ type bottomNode struct {
 func (l *list) Display() {
 	list := l.head
 	for list != nil {
-		fmt.Printf("value = %v and prev = %v and next= %v\n", list.num, list.prev, list.next)
+		fmt.Printf("value = %v and prev = %v and next= %v\n", list.idx, list.prev, list.next)
 		list = list.next
+	}
+	fmt.Println()
+}
+func (n *node) testDis() {
+
+	node := n.childHead
+	for node != nil {
+		fmt.Printf("value = %v and prev = %v and next= %v\n", node.diffVal, node.upNode, node.downNode)
+		node = node.downNode
 	}
 	fmt.Println()
 }
@@ -49,7 +58,7 @@ func (l *list) insertNode(newNode *node) {
 		l.head = newNode
 		l.tail = newNode
 	} else {
-		currentNode := l.start
+		currentNode := l.head
 		for currentNode.next != nil {
 			currentNode = currentNode.next
 		}
