@@ -77,8 +77,8 @@ func (n *node) addBottomNode(newNode *bottomNode) {
 }
 
 func main() {
-	/*items := &list{}
-	size := 10
+	items := &list{}
+	/*size := 10
 	//rand_number := make([]int, size, size)
 	for i := 0; i < size; i++ {
 		node := node{num: rand.Intn(100)}
