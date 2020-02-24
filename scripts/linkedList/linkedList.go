@@ -27,7 +27,7 @@ type bottomNode struct {
 }
 
 func (l *list) Display() {
-	testDis()
+	//testDis()
 	list := l.head
 	for list != nil {
 		fmt.Printf("value = %v and prev = %v and next= %v\n", list.idx, list.prev, list.next)
@@ -88,7 +88,7 @@ func (n *node) addBottomNode(newNode *bottomNode) {
 
 func main() {
 	/*items := &list{}
-	/*size := 10
+	size := 10
 	//rand_number := make([]int, size, size)
 	for i := 0; i < size; i++ {
 		node := node{num: rand.Intn(100)}
