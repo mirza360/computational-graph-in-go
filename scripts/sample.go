@@ -81,7 +81,7 @@ func nodeOps() *list {
 	items.addNode(&node1)
 
 	i2, df2 := mult(c, i1, i1)
-	i2, df3 := mult(c, i1, c)
+	_, df3 := mult(c, i1, c)
 	node2 := node{resVal: i2, diffVal1: df2, diffVal2: df3, str: "c"}
 	items.addNode(&node2)
 
