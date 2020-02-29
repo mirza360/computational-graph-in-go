@@ -28,7 +28,7 @@ func (g *graph) addEdge(u, v, w int) {
 }
 
 func (g *graph) adjacentEdgesExample() {
-	u := 0 // Example node label.
+	u := 1 // Example node label.
 
 	fmt.Printf("Printing all edges adjacent to %d\n", u)
 	for _, e := range g.edges[u] {
@@ -44,5 +44,13 @@ func (g *graph) adjacentEdgesExample() {
 }
 
 func main() {
+	gr := newGraph(4)
+	gr.addEdge(0, 1, 10)
+	gr.addEdge(1, 2, 9)
+	gr.addEdge(2, 3, 8)
+	gr.addEdge(3, 4, 7)
+	//gr.addEdge(4, 5, 6)
+
+	gr.adjacentEdgesExample()
 
 }
