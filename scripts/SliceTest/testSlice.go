@@ -10,19 +10,32 @@ type node struct {
 
 func main() {
 	fmt.Println("test")
-
-	var arrRow, arrCol int
+	var arrRow, arrCol, i, j int
 	fmt.Println("Enter your row size: ")
 	fmt.Scan(&arrRow)
 	fmt.Println("Enter your column size: ")
 	fmt.Scan(&arrCol)
-	data := sliceTable(arrRow, arrCol)
+	table := sliceTable(arrRow, arrCol)
 
-	fmt.Println(data[3][3])
+	for i = 0; i < arrRow; i++ {
+		for j = 0; j < arrCol; j++ {
+			println(table[i][j].val)
+		}
+	}
 }
 
 func sliceTable(arrRow, arrCol int) [][]node {
-	println(arrRow, " : ", arrCol)
-	data := make([][]node, arrRow, arrCol)
+	var i, j int
+	data := make([][]node, arrRow)
+
+	println(len(data))
+	count := 1
+	for i = 0; i < arrRow; i++ {
+		data[i] = make([]node, arrCol)
+		for j = 0; j < arrCol; j++ {
+			data[i][j] = node{val: count}
+			count++
+		}
+	}
 	return data
 }
